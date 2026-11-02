@@ -35,6 +35,17 @@ class InstallerTests(unittest.TestCase):
         result = self.run_shell([(ROOT/'install.sh').as_posix(), '--unknown'])
         self.assertEqual(result.returncode, 2)
 
+    def test_platform_policy_accepts_only_target_ubuntu_releases(self):
+        helper = (ROOT/'scripts'/'platform.sh').as_posix()
+        cases = [('ubuntu', '26.04', 0), ('ubuntu', '24.04', 0),
+                 ('ubuntu', '26.10', 1), ('ubuntu', '22.04', 1),
+                 ('debian', '26.04', 1), ('', '', 1)]
+        for distro, version, expected in cases:
+            with self.subTest(distro=distro, version=version):
+                result = self.run_shell(['-c', 'source "$1"; skud_supported_ubuntu "$2" "$3"',
+                                         'test', helper, distro, version])
+                self.assertEqual(result.returncode, expected, result.stderr)
+
     def fake_update(self, scenario, *args):
         uid = self.run_shell(['-c', 'printf "%s" "$EUID"']).stdout
         if uid == '0':

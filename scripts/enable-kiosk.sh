@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 if [[ $EUID -ne 0 ]]; then echo 'Запустите: sudo bash scripts/enable-kiosk.sh' >&2; exit 1; fi
-source /etc/os-release
-if [[ "${ID:-}" != ubuntu || "${VERSION_ID:-}" != 24.04 ]]; then
-  echo 'Скрипт рассчитан на отдельный стенд Ubuntu Server 24.04 LTS.' >&2; exit 1
-fi
+project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$project_dir/scripts/platform.sh"
+skud_require_ubuntu
 if systemctl is-active --quiet display-manager.service; then
   echo 'Обнаружен работающий рабочий стол. Используйте отдельную Ubuntu Server без desktop.' >&2; exit 1
 fi
 systemctl is-active --quiet skud-prototype.service || { echo 'Сначала установите сервер СКУД.' >&2; exit 1; }
 command -v snap >/dev/null || { echo 'Сначала установите snapd через apt.' >&2; exit 1; }
-project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 snap list ubuntu-frame >/dev/null 2>&1 || snap install ubuntu-frame
 snap list wpe-webkit-mir-kiosk >/dev/null 2>&1 || snap install wpe-webkit-mir-kiosk
 snap connect wpe-webkit-mir-kiosk:wayland ubuntu-frame:wayland

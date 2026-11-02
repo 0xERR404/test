@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 if [[ $EUID -ne 0 ]]; then echo 'Запустите: sudo bash scripts/install-server.sh' >&2; exit 1; fi
-source /etc/os-release
-if [[ "${ID:-}" != ubuntu || "${VERSION_ID:-}" != 24.04 ]]; then
-  echo 'Установщик рассчитан на Ubuntu Server 24.04 LTS.' >&2; exit 1
-fi
 project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$project_dir/scripts/platform.sh"
+skud_require_ubuntu
 command -v python3 >/dev/null || { echo 'Сначала установите python3 через apt.' >&2; exit 1; }
 python3 -c 'import sys,sqlite3; assert sys.version_info >= (3,10)'
 id skud-prototype >/dev/null 2>&1 || useradd --system --user-group --home-dir /var/lib/skud-prototype --shell /usr/sbin/nologin skud-prototype

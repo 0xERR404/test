@@ -5,7 +5,7 @@ project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 mode="${1:---kiosk}"
 usage() {
   cat <<'EOF'
-СКУД — установщик для Ubuntu Server 24.04 LTS
+СКУД — установщик для Ubuntu Server 26.04 LTS (также поддерживается 24.04 LTS)
 
   sudo bash install.sh                 Сервер + полноэкранный киоск (по умолчанию)
   sudo bash install.sh --server-only   Только локальный сервер
@@ -25,8 +25,8 @@ case "$mode" in
   *) usage; exit 2;;
 esac
 [[ "$(uname -s)" == Linux && -f /etc/os-release ]] || { echo 'Установка выполняется на Ubuntu, не на Windows.' >&2; exit 1; }
-source /etc/os-release
-[[ "${ID:-}" == ubuntu && "${VERSION_ID:-}" == 24.04 ]] || { echo 'Нужна Ubuntu Server 24.04 LTS.' >&2; exit 1; }
+source "$project_dir/scripts/platform.sh"
+skud_require_ubuntu
 [[ $EUID -eq 0 ]] || { echo "Запустите: sudo bash install.sh $mode" >&2; exit 1; }
 [[ -d /run/systemd/system ]] || { echo 'Нужна запущенная система с systemd.' >&2; exit 1; }
 if [[ "$mode" == --kiosk ]] && systemctl is-active --quiet display-manager.service; then
