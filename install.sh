@@ -5,7 +5,7 @@ project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 mode="${1:---kiosk}"
 usage() {
   cat <<'EOF'
-СКУД — установщик для Ubuntu Server 26.04 LTS (также поддерживается 24.04 LTS)
+СКУД — установщик для Ubuntu Server 26.10, 26.04 LTS и 24.04 LTS
 
   sudo bash install.sh                 Сервер + полноэкранный киоск (по умолчанию)
   sudo bash install.sh --server-only   Только локальный сервер

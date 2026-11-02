@@ -38,7 +38,7 @@ class InstallerTests(unittest.TestCase):
     def test_platform_policy_accepts_only_target_ubuntu_releases(self):
         helper = (ROOT/'scripts'/'platform.sh').as_posix()
         cases = [('ubuntu', '26.04', 0), ('ubuntu', '24.04', 0),
-                 ('ubuntu', '26.10', 1), ('ubuntu', '22.04', 1),
+                 ('ubuntu', '26.10', 0), ('ubuntu', '22.04', 1),
                  ('debian', '26.04', 1), ('', '', 1)]
         for distro, version, expected in cases:
             with self.subTest(distro=distro, version=version):
