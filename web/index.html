@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>СКУД · Площадка Северная</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231258b1'/%3E%3Cpath d='M10 25V7h12v18M17 16h2' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<div id="app" class="app" hidden>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>СКУД<span class="brand-sub">ITN-LAB</span></div>
+    <span class="site-label">Площадка Северная</span>
+    <button class="warning-link" data-action="alarms"><span data-icon="alert"></span><span id="alarm-count">2 предупреждения</span></button>
+    <div class="top-spacer"></div>
+    <span class="demo-badge">ДЕМО</span>
+    <span class="connection" id="connection"><i class="dot ok"></i>Сервер подключён</span>
+    <time id="clock"></time>
+    <span class="operator"><span data-icon="user"></span>Петров А. С.</span>
+    <button class="icon-button" data-action="theme" aria-label="Переключить тему" title="Переключить тему"><span data-icon="sun"></span></button>
+    <button class="icon-button" data-action="lock" aria-label="Заблокировать сеанс" title="Заблокировать сеанс"><span data-icon="lock"></span></button>
+  </header>
+  <nav class="tabs" aria-label="Разделы СКУД">
+    <button data-tab="hub" class="active"><span data-icon="map"></span>Хаб</button>
+    <button data-tab="monitor"><span data-icon="activity"></span>Мониторинг</button>
+    <button data-tab="people"><span data-icon="users"></span>Сотрудники</button>
+    <button data-tab="journal"><span data-icon="list"></span>Журнал</button>
+    <button data-tab="reports"><span data-icon="chart"></span>Отчёты</button>
+    <button data-tab="settings"><span data-icon="settings"></span>Параметры</button>
+    <span class="nav-end">Рабочее место охраны <span class="muted">/ 01</span></span>
+  </nav>
+  <div id="offline-banner" role="alert" hidden>Нет связи с сервером. Показаны последние полученные данные; команды недоступны. Переподключение автоматически…</div>
+  <main id="main"></main>
+  <footer class="statusbar"><span><i class="dot blue"></i>Локальный стенд <span class="divider">/</span> Все операции имитируются</span><span id="footer-counts"></span><button data-action="simulate"><span data-icon="play"></span>Тестовый проход</button></footer>
+</div>
+<section id="login" class="login-screen">
+  <div class="login-brand"><span class="brand-mark"></span><strong>ITN-LAB</strong><span>ЛАБОРАТОРИЯ ИННОВАЦИЙ</span></div>
+  <form id="login-form" class="login-card">
+    <span class="eyebrow">СИСТЕМА КОНТРОЛЯ ДОСТУПА</span>
+    <h1 id="login-title">Рабочее место охраны</h1>
+    <p>Площадка Северная <span class="divider">/</span> Терминал 01</p>
+    <label>Пользователь<input name="login" autocomplete="username" value="operator" required></label>
+    <label>Пароль<input name="password" type="password" autocomplete="current-password" required></label>
+    <p class="form-error" role="alert" id="login-error"></p>
+    <button class="primary" type="submit">Войти в СКУД <span data-icon="arrow"></span></button>
+    <div class="demo-note">Прототип · тестовые данные<br>Первый вход: <b>operator</b> / <b>demo1234</b><br>Если пароль изменён при установке, используйте новый.</div>
+  </form>
+  <div class="login-bottom"><span id="login-health">Подключение к локальному серверу…</span><time id="login-clock"></time><button class="text-button" data-action="theme">Светлая / тёмная тема</button></div>
+</section>
+<dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

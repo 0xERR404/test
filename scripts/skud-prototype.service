@@ -1,0 +1,32 @@
+[Unit]
+Description=SKUD local demonstration server
+After=local-fs.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=skud-prototype
+Group=skud-prototype
+WorkingDirectory=/opt/skud-prototype
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/etc/skud-prototype/environment
+ExecStart=/usr/bin/python3 /opt/skud-prototype/server.py --port 8080 --data-dir /var/lib/skud-prototype
+Restart=always
+RestartSec=3
+StateDirectory=skud-prototype
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_INET AF_UNIX
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target
